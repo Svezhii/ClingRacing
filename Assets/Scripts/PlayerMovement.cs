@@ -7,12 +7,12 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float _speed;
+    [SerializeField] private float _speedRotation = 65;
     [SerializeField] private float _searchRadius = 10;
-    [SerializeField] private Vector3 _axis;
 
     private Point _pivotPoint;
     private Transform _transform;
-    private bool _isTurning = false;
+    public bool IsTurning { get; private set; } = false;
 
     private void Awake()
     {
@@ -27,23 +27,42 @@ public class PlayerMovement : MonoBehaviour
 
             if (_pivotPoint != null)
             {
+                IsTurning = true;
                 TurnAroundPivot();
+            }
+            else
+            {
+                IsTurning = false;
+                Move();
             }
         }
         else
         {
-            _transform.Translate(Vector3.forward * _speed * Time.deltaTime);
+            IsTurning = false;
+            Move();
         }
+    }
+
+    private void Move()
+    {
+        _transform.Translate(Vector3.forward * _speed * Time.deltaTime);
     }
 
     private void TurnAroundPivot()
     {
         if (_pivotPoint == null) return;
 
-        float fromPivotToCar = transform.position.x - _pivotPoint.transform.position.x;
+        float distanceToPivot = Vector3.Distance(_transform.position, _pivotPoint.transform.position);
 
-
-        _transform.RotateAround(_pivotPoint.transform.position, _pivotPoint.transform.up, Time.deltaTime * 100);
+        if (distanceToPivot <= 12f)
+        {
+            _transform.RotateAround(_pivotPoint.transform.position, _pivotPoint.transform.up, Time.deltaTime * _speedRotation);
+        }
+        else
+        {
+            IsTurning = false;
+            Move();
+        }
     }
 
     private void SearchForPivotPoints()
