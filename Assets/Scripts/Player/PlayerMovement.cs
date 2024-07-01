@@ -1,27 +1,28 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(GroundChecker), typeof(Transform), typeof(PivotFinder))]
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float _speed;
     [SerializeField] private float _speedRotation = 65;
-    [SerializeField] private float _searchRadius = 10;
-    [SerializeField] private float _correctDistanceRotate = 12;
-
-    private Point _pivotPoint;
-    private Transform _transform;
-    private bool _isGrounded;
-    private bool _isClick = false;
 
     private PlayerInput _playerInput;
+    private GroundChecker _groundChecker;
+    private PivotFinder _pivotFinder;
+    private Transform _transform;
+    private bool _isClick = false;
 
-    public bool IsTurning { get; private set; } = false;
+    public bool IsTurning { get; private set; }
 
     private void Awake()
     {
         _transform = transform;
 
         _playerInput = new PlayerInput();
+
+        _groundChecker = GetComponent<GroundChecker>();
+        _pivotFinder = GetComponent<PivotFinder>();
     }
 
     private void OnEnable()
@@ -29,6 +30,7 @@ public class PlayerMovement : MonoBehaviour
         _playerInput.Enable();
         _playerInput.Player.Move.performed += OnTurnAroundPivot;
         _playerInput.Player.Move.canceled += OnTurnAroundPivot;
+        _pivotFinder.ExitPivotRadius += SetTurningStatus;
     }
 
     private void OnDisable()
@@ -36,6 +38,7 @@ public class PlayerMovement : MonoBehaviour
         _playerInput.Disable();
         _playerInput.Player.Move.performed -= OnTurnAroundPivot;
         _playerInput.Player.Move.canceled -= OnTurnAroundPivot;
+        _pivotFinder.ExitPivotRadius -= SetTurningStatus;
     }
 
     private void Update()
@@ -44,53 +47,23 @@ public class PlayerMovement : MonoBehaviour
         TurnAroundPivot();
     }
 
-    private void OnCollisionExit(Collision collision)
-    {
-        if (collision.collider.TryGetComponent(out Ground ground))
-        {
-            _isGrounded = false;
-        }
-    }
-
-    private void OnCollisionStay(Collision collision)
-    {
-        if (collision.collider.TryGetComponent(out Ground ground))
-        {
-            _isGrounded = true;
-        }
-    }
-
     private void Move()
     {
-        if (_isGrounded && IsTurning == false)
+        if (_groundChecker.IsGrounded && IsTurning == false)
         {
             _transform.Translate(Vector3.forward * _speed * Time.deltaTime);
         }
     }
 
-    public void OnTurnAroundPivot(InputAction.CallbackContext context)
-    {
-        _isClick = context.performed;
-
-        SearchForPivotPoints();
-    }
-
     private void TurnAroundPivot()
     {
-        if (_pivotPoint == null) return;
+        if (_pivotFinder.Point == null) return;
 
         if (_isClick == true)
         {
             IsTurning = true;
 
-            if (CanRotate())
-            {
-                _transform.RotateAround(_pivotPoint.transform.position, _pivotPoint.transform.up, Time.deltaTime * _speedRotation);
-            }
-            else
-            {
-                IsTurning = false;
-            }
+            _transform.RotateAround(_pivotFinder.Point.transform.position, _pivotFinder.Point.transform.up, Time.deltaTime * _speedRotation);
         }
         else
         {
@@ -98,27 +71,13 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private bool CanRotate()
+    private void OnTurnAroundPivot(InputAction.CallbackContext context)
     {
-        float distanceToPivot = Vector3.Distance(_transform.position, _pivotPoint.transform.position);
-
-        if(distanceToPivot <= _correctDistanceRotate && _isGrounded)
-        {
-            return true;
-        }
-        return false;
+        _isClick = context.performed;
     }
 
-    private void SearchForPivotPoints()
+    private void SetTurningStatus(bool status)
     {
-        Collider[] hitColliders = Physics.OverlapSphere(_transform.position, _searchRadius);
-
-        foreach (var hitCollider in hitColliders)
-        {
-            if (hitCollider.TryGetComponent(out Point point))
-            {
-                _pivotPoint = point;
-            }
-        }
+        IsTurning = status;
     }
 }
