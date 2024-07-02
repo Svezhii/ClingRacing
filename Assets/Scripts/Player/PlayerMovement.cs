@@ -5,13 +5,14 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float _speed;
-    [SerializeField] private float _speedRotation = 65;
 
     private PlayerInput _playerInput;
     private GroundChecker _groundChecker;
     private PivotFinder _pivotFinder;
     private Transform _transform;
     private bool _isClick = false;
+    private float _rotationDistanceThreshold = 3;
+    private float _maxRotationSpeed = 130;
 
     public bool IsTurning { get; private set; }
 
@@ -49,7 +50,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Move()
     {
-        if (_groundChecker.IsGrounded && IsTurning == false)
+        if (_groundChecker.IsGrounded)
         {
             _transform.Translate(Vector3.forward * _speed * Time.deltaTime);
         }
@@ -63,7 +64,16 @@ public class PlayerMovement : MonoBehaviour
         {
             IsTurning = true;
 
-            _transform.RotateAround(_pivotFinder.Point.transform.position, _pivotFinder.Point.transform.up, Time.deltaTime * _speedRotation);
+            Vector3 directionToPivot = _pivotFinder.Point.transform.position - _transform.position;
+            directionToPivot.y = 0;
+
+            float angle = Vector3.Angle(_transform.forward, directionToPivot);
+
+            float rotationSpeed = Mathf.Lerp(0, _maxRotationSpeed, Mathf.Clamp01(angle / _rotationDistanceThreshold));
+
+            Quaternion targetRotation = Quaternion.LookRotation(directionToPivot);
+
+            transform.rotation = Quaternion.RotateTowards(_transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         }
         else
         {
