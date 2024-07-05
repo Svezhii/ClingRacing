@@ -1,3 +1,4 @@
+using System.Drawing;
 using UnityEngine;
 
 [RequireComponent(typeof(LineRenderer))]
@@ -5,8 +6,8 @@ public class LineConnect : MonoBehaviour
 {
     [SerializeField] private Transform _startPosition;
     [SerializeField] private Transform _endPosition;
-    [SerializeField] private PlayerMovement _playerMovement;
-    [SerializeField] private float _correctDistanceRotate = 12;
+    [SerializeField] private PlayerMover _playerMovement;
+    [SerializeField] private float _correctDistanceRotate = 9;
 
     private LineRenderer _lineRenderer;
     Vector3[] positions = new Vector3[2];

@@ -1,8 +1,9 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Button))]
-public class PlayButton : MonoBehaviour
+public class RestartButton : MonoBehaviour
 {
     [SerializeField] private PauseMenu _mainMenu;
 
@@ -25,7 +26,12 @@ public class PlayButton : MonoBehaviour
 
     private void OnButtonClick()
     {
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+
+        SceneManager.LoadScene(currentSceneIndex);
+
         Time.timeScale = 1f;
+
         _mainMenu.gameObject.SetActive(false);
     }
 }

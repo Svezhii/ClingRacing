@@ -4,7 +4,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Button))]
 public class PauseButton : MonoBehaviour
 {
-    [SerializeField] private MainMenu _mainMenu;
+    [SerializeField] private PauseMenu _mainMenu;
 
     private Button _button;
 
@@ -13,15 +13,17 @@ public class PauseButton : MonoBehaviour
         _button = GetComponent<Button>();
     }
 
-    void Start()
+    private void OnEnable()
     {
-        if (_button != null)
-        {
-            _button.onClick.AddListener(OnButtonClick);
-        }
+        _button.onClick.AddListener(OnButtonClick);
     }
 
-    void OnButtonClick()
+    private void OnDisable()
+    {
+        _button.onClick.RemoveListener(OnButtonClick);
+    }
+
+    private void OnButtonClick()
     {
         Time.timeScale = 0f;
         _mainMenu.gameObject.SetActive(true);

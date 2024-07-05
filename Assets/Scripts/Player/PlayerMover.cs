@@ -2,17 +2,17 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(GroundChecker), typeof(Transform), typeof(PivotFinder))]
-public class PlayerMovement : MonoBehaviour
+public class PlayerMover : MonoBehaviour
 {
     [SerializeField] private float _speed;
+    [SerializeField] private float _rotationDistanceThreshold = 110;
+    [SerializeField] private float _maxRotationSpeed = 150;
 
     private PlayerInput _playerInput;
     private GroundChecker _groundChecker;
     private PivotFinder _pivotFinder;
     private Transform _transform;
     private bool _isClick = false;
-    private float _rotationDistanceThreshold = 3;
-    private float _maxRotationSpeed = 130;
 
     public bool IsTurning { get; private set; }
 

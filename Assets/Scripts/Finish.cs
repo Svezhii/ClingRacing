@@ -6,7 +6,7 @@ public class Finish : MonoBehaviour
 {
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.collider.TryGetComponent(out PlayerMovement player))
+        if(collision.collider.TryGetComponent(out PlayerMover player))
         {
 
         }

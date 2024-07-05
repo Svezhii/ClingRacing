@@ -1,17 +1,17 @@
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerMovement))]
+[RequireComponent(typeof(PlayerMover))]
 public class PlayerRotator : MonoBehaviour
 {
     [SerializeField] private float _alignmentSpeed = 2f;
 
     private Transform _transform;
     private readonly float[] _allowedAngles = { 0f, 90f, 180f, -90f };
-    private PlayerMovement _playerMovement;
+    private PlayerMover _playerMovement;
 
     private void Awake()
     {
-        _playerMovement = GetComponent<PlayerMovement>();
+        _playerMovement = GetComponent<PlayerMover>();
         _transform = transform;
     }
 
