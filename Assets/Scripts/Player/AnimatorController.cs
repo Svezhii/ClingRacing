@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class AnimatorController : MonoBehaviour
 {
-    [SerializeField] private PlayerMover _playerMover;
+    [SerializeField] private GameSystem _playerMover;
     [SerializeField] private PivotFinder _pivotFinder;
 
     public readonly int Right = Animator.StringToHash(nameof(Right));

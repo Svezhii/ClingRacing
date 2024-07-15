@@ -6,7 +6,7 @@ public class LineConnect : MonoBehaviour
 {
     [SerializeField] private Transform _startPosition;
     [SerializeField] private Transform _endPosition;
-    [SerializeField] private PlayerMover _playerMovement;
+    [SerializeField] private GameSystem _playerMovement;
     [SerializeField] private float _correctDistanceRotate = 9;
 
     private LineRenderer _lineRenderer;

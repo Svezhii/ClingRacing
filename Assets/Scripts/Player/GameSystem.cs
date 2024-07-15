@@ -1,12 +1,19 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Assets.Scripts.MovebleSystem;
+using Assets.Scripts.Player;
 
 [RequireComponent(typeof(GroundChecker), typeof(Transform), typeof(PivotFinder))]
-public class PlayerMover : MonoBehaviour
+public class GameSystem : MonoBehaviour
 {
+    [SerializeField] private RotateSystem _rotateSystem;
+
+    private Car _currentCar;
+
+
+
+
     [SerializeField] private float _speed;
-    [SerializeField] private float _rotationDistanceThreshold = 110;
-    [SerializeField] private float _maxRotationSpeed = 150;
 
     private PlayerInput _playerInput;
     private GroundChecker _groundChecker;
@@ -24,6 +31,16 @@ public class PlayerMover : MonoBehaviour
 
         _groundChecker = GetComponent<GroundChecker>();
         _pivotFinder = GetComponent<PivotFinder>();
+
+
+
+
+
+
+
+        _currentCar = new Car();
+
+        _rotateSystem.Init(_currentCar, _pivotFinder, CanRotate);
     }
 
     private void OnEnable()
@@ -48,6 +65,11 @@ public class PlayerMover : MonoBehaviour
         TurnAroundPivot();
     }
 
+    public bool CanRotate()
+    {
+        return _isClick;
+    }
+
     private void Move()
     {
         if (_groundChecker.IsGrounded)
@@ -63,17 +85,6 @@ public class PlayerMover : MonoBehaviour
         if (_isClick == true)
         {
             IsTurning = true;
-
-            Vector3 directionToPivot = _pivotFinder.Point.transform.position - _transform.position;
-            directionToPivot.y = 0;
-
-            float angle = Vector3.Angle(_transform.forward, directionToPivot);
-
-            float rotationSpeed = Mathf.Lerp(0, _maxRotationSpeed, Mathf.Clamp01(angle / _rotationDistanceThreshold));
-
-            Quaternion targetRotation = Quaternion.LookRotation(directionToPivot);
-
-            transform.rotation = Quaternion.RotateTowards(_transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         }
         else
         {

@@ -4,11 +4,15 @@ using UnityEngine;
 
 public class Finish : MonoBehaviour
 {
+    [SerializeField] private PauseMenu _pauseMenu;
+
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.collider.TryGetComponent(out PlayerMover player))
+        if(collision.collider.TryGetComponent(out GameSystem player))
         {
+            Time.timeScale = 0f;
 
+            _pauseMenu.gameObject.SetActive(true);
         }
     }
 }
