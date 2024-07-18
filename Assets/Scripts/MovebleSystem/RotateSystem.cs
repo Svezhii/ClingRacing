@@ -8,12 +8,12 @@ namespace Assets.Scripts.MovebleSystem
         [SerializeField] private RotationView _rotationView;
 
         private IRotateble _rotateble;
-        private Func<bool> _rotateCondition;
+        private Func<bool> _clickCondition;
         private PivotFinder _pivotFinder;
 
         private void Update()
         {
-            if (_rotateCondition.Invoke())
+            if (_clickCondition.Invoke())
             {
                 if (_pivotFinder.Point == null) return;
 
@@ -34,7 +34,7 @@ namespace Assets.Scripts.MovebleSystem
         {
             _rotateble = rotate;
             _pivotFinder = pivot;
-            _rotateCondition = rotationCondition;
+            _clickCondition = rotationCondition;
 
             _rotationView.Init(_rotateble);
         }

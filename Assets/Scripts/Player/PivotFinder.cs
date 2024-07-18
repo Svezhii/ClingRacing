@@ -4,7 +4,6 @@ using UnityEngine;
 public class PivotFinder : MonoBehaviour
 {
     public Point Point { get; private set; }
-
     public event Action<bool> ExitPivotRadius;
 
     private void OnTriggerStay(Collider other)

@@ -8,7 +8,7 @@ public class Finish : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.collider.TryGetComponent(out GameSystem player))
+        if(collision.collider.TryGetComponent(out Mover player))
         {
             Time.timeScale = 0f;
 

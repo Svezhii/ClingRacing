@@ -99,8 +99,8 @@ GameObject:
   - component: {fileID: 131566003566728964}
   - component: {fileID: 862652078129973963}
   - component: {fileID: 229081779542466364}
-  - component: {fileID: 7141117706427789517}
   - component: {fileID: 2616128206683236404}
+  - component: {fileID: 5453925593949379413}
   m_Layer: 0
   m_Name: Car 1
   m_TagString: Untagged
@@ -185,6 +185,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _alignmentSpeed: 3
+  _playerMovement: {fileID: 0}
 --- !u!114 &1007024705323417690
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -256,20 +257,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _jumpForce: 5
---- !u!114 &7141117706427789517
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 633937249914614920}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9e5f45ad35ced74d9e8515cde62c3b2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _rotateSystem: {fileID: 0}
-  _speed: 14
 --- !u!114 &2616128206683236404
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -282,6 +269,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c487ad544a775c74e8180889027649aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5453925593949379413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 633937249914614920}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1bd34158593d294c850ec25a385526e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _speed: 15
 --- !u!1 &1117236631632575421
 GameObject:
   m_ObjectHideFlags: 0
@@ -410,7 +410,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 843c357d21dfbcf4ab2f393070a91000, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerMover: {fileID: 7141117706427789517}
+  _playerMover: {fileID: 0}
   _pivotFinder: {fileID: 862652078129973963}
 --- !u!95 &8052674428893291941
 Animator:
