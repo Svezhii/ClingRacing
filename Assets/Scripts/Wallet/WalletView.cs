@@ -17,6 +17,8 @@ public class WalletView : MonoBehaviour
         _wallet = wallet;
 
         _wallet.OnChangeValue += OnChangeValue;
+
+        OnChangeValue(_wallet.Value);
     }
 
     private void OnDestroy()

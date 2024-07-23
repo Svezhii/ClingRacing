@@ -11,6 +11,7 @@ public class Wallet
     public Wallet()
     {
         Value = PlayerPrefs.GetInt(WalletKey, 0);
+        OnChangeValue?.Invoke(Value);
     }
 
     public void AddValue(int value)
