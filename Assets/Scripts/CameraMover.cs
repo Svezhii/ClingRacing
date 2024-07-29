@@ -4,7 +4,7 @@ public class CameraMover : MonoBehaviour
 {
     [SerializeField] private Transform _target;
 
-    private void Update()
+    private void LateUpdate()
     {
         Vector3 currentPosition = transform.position;
 

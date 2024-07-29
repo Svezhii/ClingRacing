@@ -4,13 +4,8 @@ using UnityEngine;
 [RequireComponent(typeof(TextMeshProUGUI))]
 public class WalletView : MonoBehaviour
 {
-    private TextMeshProUGUI _text;
+    [SerializeField] private TextMeshProUGUI _text;
     private Wallet _wallet;
-
-    private void Awake()
-    {
-        _text = GetComponent<TextMeshProUGUI>();
-    }
 
     public void Init(Wallet wallet)
     {

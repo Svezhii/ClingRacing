@@ -10,7 +10,7 @@ public class Wallet
 
     public Wallet()
     {
-        Value = PlayerPrefs.GetInt(WalletKey, 0);
+        Value = PlayerPrefs.GetInt(WalletKey, 100);
         OnChangeValue?.Invoke(Value);
     }
 

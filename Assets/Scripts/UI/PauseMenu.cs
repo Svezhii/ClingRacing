@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PauseMenu : MonoBehaviour
 {
-    private void Start()
+    private void Awake()
     {
         gameObject.SetActive(false);
     }

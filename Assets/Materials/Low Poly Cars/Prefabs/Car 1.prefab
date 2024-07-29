@@ -186,7 +186,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _alignmentSpeed: 3
-  _playerMovement: {fileID: 0}
+  _playerMovement: {fileID: 5453925593949379413}
 --- !u!114 &1007024705323417690
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -424,7 +424,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 843c357d21dfbcf4ab2f393070a91000, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerMover: {fileID: 0}
+  _playerMover: {fileID: 5453925593949379413}
   _pivotFinder: {fileID: 862652078129973963}
 --- !u!95 &8052674428893291941
 Animator:

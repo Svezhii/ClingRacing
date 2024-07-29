@@ -47,4 +47,9 @@ public class CellShopButton : MonoBehaviour
 
         }
     }
+
+    public void Init(Wallet wallet)
+    {
+        _wallet = wallet;
+    }
 }
