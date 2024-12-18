@@ -1,9 +1,13 @@
 using UnityEngine;
+using DG.Tweening;
 
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerUpForcer : MonoBehaviour
 {
     [SerializeField] private float _jumpForce = 10f;
+    [SerializeField] private float _jumpDuration = 0.5f; // Длительность прыжка
+
+    private float _zOffset = 12;
 
     private Rigidbody _rigidbody;
 
@@ -18,7 +22,14 @@ public class PlayerUpForcer : MonoBehaviour
         {
             if (_rigidbody != null)
             {
-                _rigidbody.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
+                Vector3 targetPosition = transform.position + new Vector3(0, 0, _zOffset);
+
+                transform.DOJump(targetPosition, _jumpForce, 1, _jumpDuration)
+                    .SetEase(Ease.Linear)
+                    .OnComplete(() =>
+                    {
+                        _rigidbody.isKinematic = false;
+                    });
             }
         }
     }

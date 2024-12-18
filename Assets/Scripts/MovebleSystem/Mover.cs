@@ -1,12 +1,14 @@
+using Infrastructure.Services;
+using Infrastructure.Services.Input;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(GroundChecker), typeof(PivotFinder))]
 public class Mover : MonoBehaviour
 {
-    [SerializeField] private InputSystem _inputSystem;
     [SerializeField] private float _speed;
 
+    private IInputService _inputService;
     private GroundChecker _groundChecker;
     private Transform _transform;
     private PivotFinder _pivotFinder;
@@ -15,6 +17,7 @@ public class Mover : MonoBehaviour
 
     private void Awake()
     {
+        _inputService = AllServices.Container.Single<IInputService>();
         _transform = transform;
 
         _groundChecker = GetComponent<GroundChecker>();
@@ -39,7 +42,7 @@ public class Mover : MonoBehaviour
 
     private void TurnAroundPivot()
     {
-        if (_inputSystem.CanRotate())
+        if (_inputService.IsMouseClick())
         {
             if (_pivotFinder.Point == null) return;
 

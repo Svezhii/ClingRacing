@@ -1,16 +1,24 @@
+using System;
+using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(Button))]
 public class CellShopButton : MonoBehaviour
 {
-    [SerializeField] private PauseMenu _mainMenu;
+    [SerializeField] private ConfirmMenu _confirmMenu;
+    [SerializeField] private TextMeshProUGUI _textButton;
     [SerializeField] private int _value;
+    [SerializeField] private GameObject _carPrefab;
+    [SerializeField] private bool _isDefaultCar = false;
 
-    private bool isBuyed = false;
-    private bool isSelected = false;
+    public bool IsBuyed { get; private set; } = false;
+    public bool IsSelected { get;private set; } = false;
     private Button _button;
     private Wallet _wallet;
+    private CarSelector _carSelector;
+
+    public event Action OnButtonSelected;
 
     private void Awake()
     {
@@ -37,19 +45,46 @@ public class CellShopButton : MonoBehaviour
 
     private void OnButtonClick()
     {
-        if (isBuyed == false)
+        if (IsBuyed == false)
         {
-            _mainMenu.gameObject.SetActive(true);
+            _confirmMenu.gameObject.SetActive(true);
+            _confirmMenu.Init(_wallet, _value, this);
         }
 
-        if (isSelected == false && isBuyed)
+        if (IsSelected == false && IsBuyed)
         {
+            _carSelector.SelectCar(_carPrefab);
 
+            OnButtonSelected?.Invoke();
+
+            _textButton.SetText("Selected");
+            IsSelected = true;
+            _button.interactable = false;
         }
     }
 
-    public void Init(Wallet wallet)
+    public void SetInteractable()
+    {
+        _textButton.SetText("Select");
+        IsSelected = false;
+        _button.interactable = true;
+    }
+
+    public void Init(Wallet wallet, CarSelector carSelector)
     {
         _wallet = wallet;
+        _carSelector = carSelector;
+
+        if (_isDefaultCar)
+        {
+            IsBuyed = true;
+            IsSelected = true;
+        }
+    }
+
+    public void BuyCar()
+    {
+        IsBuyed = true;
+        _textButton.SetText("Select");
     }
 }
